@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VSite | Siti web per attività in Versilia</title>
+<meta name="description" content="VSite realizza siti web professionali per negozi e attività di Viareggio, Forte dei Marmi e Versilia. 200 € tutto compreso, modifiche a 5 €.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FFFFFF; --surface:#F4F4F4; --ink:#000000; --muted:#5A5A5A;
+  --pine:#000000; --sea:#000000; --sun:#000000; --line:#E2E2E2; --wa:#000000; --on-wa:#FFFFFF;
+  --head-bg:rgba(255,255,255,.85);
+  --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --body:"Figtree","Helvetica Neue",Arial,system-ui,sans-serif;
+  box-sizing:border-box;
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#000000; --surface:#141414; --ink:#FFFFFF; --muted:#A3A3A3;
+    --pine:#FFFFFF; --sea:#FFFFFF; --sun:#FFFFFF; --line:#2A2A2A; --wa:#FFFFFF; --on-wa:#000000; --head-bg:rgba(0,0,0,.85);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#000000; --surface:#141414; --ink:#FFFFFF; --muted:#A3A3A3;
+  --pine:#FFFFFF; --sea:#FFFFFF; --sun:#FFFFFF; --line:#2A2A2A; --wa:#FFFFFF; --on-wa:#000000; --head-bg:rgba(0,0,0,.85);
+}
+*,*::before,*::after{box-sizing:inherit}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 80px);scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);font-size:1.0625rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--sea);outline-offset:3px;border-radius:6px}
+.wrap{width:min(1240px,100% - 3rem);margin-inline:auto}
+
+/* Header */
+.head{position:sticky;top:0;z-index:20;padding-top:env(safe-area-inset-top,0px);background:var(--head-bg);backdrop-filter:saturate(1.4) blur(14px);-webkit-backdrop-filter:saturate(1.4) blur(14px);border-bottom:1px solid transparent;transition:border-color .2s}
+.head.scrolled{border-bottom-color:var(--line)}
+.head .wrap{display:flex;align-items:center;gap:2rem;height:72px}
+.head .wrap{gap:1.2rem}
+.menu-btn{flex:none;width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);display:flex;flex-direction:column;justify-content:center;align-items:center;gap:5px;cursor:pointer;padding:0;transition:border-color .15s}
+.menu-btn:hover{border-color:var(--ink)}
+.menu-btn span{display:block;width:18px;height:2px;border-radius:2px;background:var(--ink);transition:transform .3s,width .3s}
+.menu-btn span:nth-child(2){width:12px;align-self:center;transform:translateX(-3px)}
+.menu-btn:hover span:nth-child(2){width:18px;transform:none}
+.overlay{position:fixed;inset:0;z-index:40;background:rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .3s}
+.drawer{position:fixed;top:0;left:0;bottom:0;z-index:50;width:min(340px,86vw);background:var(--bg);border-right:1px solid var(--line);padding:calc(env(safe-area-inset-top,0px) + 1.2rem) 1.6rem calc(env(safe-area-inset-bottom,0px) + 1.6rem);display:flex;flex-direction:column;transform:translateX(-100%);transition:transform .45s cubic-bezier(.2,.8,.2,1);overflow-y:auto}
+.menu-open .overlay{opacity:1;pointer-events:auto}
+.menu-open .drawer{transform:none}
+.drawer-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem}
+.drawer-top b{font-family:var(--display);font-weight:800;font-size:1.3rem;letter-spacing:-.03em}
+.close-btn{width:44px;height:44px;border-radius:12px;border:1.5px solid var(--line);background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer}
+.close-btn svg{width:20px;height:20px}
+.drawer ul{list-style:none;margin:0 0 2rem;padding:0}
+.drawer li{opacity:0;transform:translateX(-16px);transition:opacity .35s,transform .35s cubic-bezier(.2,.8,.2,1)}
+.menu-open .drawer li{opacity:1;transform:none;transition-delay:calc(var(--i)*45ms + 120ms)}
+.drawer li a{display:block;padding:.75rem 0;border-bottom:1px solid var(--line);font-family:var(--display);font-weight:600;font-size:1.2rem;text-decoration:none;transition:padding .2s}
+.drawer li a:hover{padding-left:.4rem}
+.drawer .btn{margin-top:auto}
+body.menu-open{overflow:hidden}
+.brand{display:flex;align-items:center;gap:.7rem;text-decoration:none;margin-right:auto}
+.mark{width:42px;height:42px;border-radius:12px;background:var(--pine);overflow:hidden;position:relative;flex:none}
+.mark .vv{position:absolute;inset:0;width:100%;height:100%;z-index:2}
+.mark .vv path{stroke-dasharray:44;stroke-dashoffset:44;animation:draw .9s .3s cubic-bezier(.6,0,.2,1) forwards}
+.mark .vv circle{transform-origin:30.5px 9px;transform:scale(0);animation:sunpop .5s 1.1s cubic-bezier(.3,1.6,.5,1) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+@keyframes sunpop{to{transform:none}}
+.mark .wv{position:absolute;left:0;bottom:-4px;width:200%;height:16px;animation:wave 3.2s linear infinite}
+.mark .wv:nth-child(2){bottom:-7px;bottom:2px;opacity:.55;animation-duration:4.6s;animation-direction:reverse}
+@keyframes wave{to{transform:translateX(-50%)}}
+.brand b{font-size:1.3rem!important;letter-spacing:-.03em!important}
+.brand b{font-family:var(--display);font-weight:800;font-size:1.08rem;letter-spacing:-.01em;line-height:1.1;display:block}
+.brand small{display:block;font-size:.78rem;color:var(--muted);line-height:1.2}
+.nav{display:flex;gap:1.8rem}
+.nav a{text-decoration:none;font-weight:500;font-size:.97rem;color:var(--muted);transition:color .15s}
+.nav a:hover{color:var(--ink)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.55rem;font-weight:600;text-decoration:none;border-radius:999px;padding:.9rem 1.5rem;transition:transform .15s ease,background .15s ease,border-color .15s}
+.btn:hover{transform:translateY(-1px)}
+.btn-wa{background:var(--wa);color:var(--on-wa)}
+.btn-wa:hover{opacity:.85}
+.btn-ghost{border:1.5px solid var(--line);background:var(--surface)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn svg{width:1.15em;height:1.15em;flex:none}
+.head .btn{padding:.6rem 1.15rem;font-size:.95rem}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.12fr);gap:4rem;align-items:center;padding:4.5rem 0 4rem}
+.hero h1{font-family:var(--display);font-weight:800;font-size:clamp(2.5rem,5.4vw,4.6rem);line-height:1.02;letter-spacing:-.035em;margin:0 0 1.5rem;max-width:12ch}
+.lead{font-size:1.22rem;color:var(--muted);max-width:36ch;margin:0 0 2.2rem}
+.lead strong{color:var(--ink);font-weight:600}
+.cta-row{display:flex;flex-wrap:wrap;gap:.8rem}
+.place{margin-top:2.2rem;font-size:.95rem;color:var(--muted);display:flex;align-items:center;gap:.5rem}
+.place svg{width:1.1em;height:1.1em;color:var(--pine);flex:none}
+
+.split .w{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em}
+.split .w>span{display:inline-block;transform:translateY(105%);animation:up .7s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*70ms + 100ms)}
+@keyframes up{to{transform:none}}
+.hero .lead,.hero .cta-row,.hero .place{opacity:0;transform:translateY(14px);animation:rise .6s cubic-bezier(.2,.8,.2,1) forwards}
+.hero .lead{animation-delay:.7s}.hero .cta-row{animation-delay:.85s}.hero .place{animation-delay:1s}
+/* Devices */
+.stage{position:relative;padding:0 0 10% 0}
+
+.browser{position:relative;z-index:1;background:#fff;border-radius:14px;box-shadow:0 40px 80px -30px rgba(0,0,0,.45),0 0 0 1px rgba(0,0,0,.08);overflow:hidden;color:#000000;opacity:0;transform:translateY(16px);animation:rise .7s .1s cubic-bezier(.2,.8,.2,1) forwards}
+.bar{display:flex;align-items:center;gap:6px;padding:10px 12px;background:#F0F0F0;border-bottom:1px solid #E2E2E2}
+.bar i{width:10px;height:10px;border-radius:50%;background:#CFCFCF}
+.url{margin-left:10px;flex:1;max-width:280px;background:#fff;border-radius:6px;font-size:.68rem;color:#777777;padding:4px 10px;white-space:nowrap;overflow:hidden}
+.page{aspect-ratio:16/10;display:flex;flex-direction:column}
+.p-nav{display:flex;justify-content:space-between;align-items:center;padding:12px 20px;font-size:.7rem}
+.p-nav b{font-family:var(--display);font-weight:800;font-size:.9rem;color:#000000;white-space:nowrap;overflow:hidden;width:0;border-right:2px solid #000000;animation:typeb 1s .8s steps(15) forwards,nocaret 0s 2s forwards}
+@keyframes typeb{to{width:9.5rem}}
+@keyframes nocaret{to{border-color:transparent}}
+.p-nav span{display:flex;gap:14px;color:#555555}.p-nav i{font-style:normal}
+.p-hero{margin:0 20px;border-radius:10px;background:#000000;color:#fff;padding:18px 20px;display:flex;justify-content:space-between;align-items:center;clip-path:inset(0 100% 0 0 round 10px);animation:wipe .8s 1.9s cubic-bezier(.6,0,.2,1) forwards}
+.p-hero h4,.p-hero small{opacity:0;animation:fade .4s 2.5s forwards}
+.p-hero em{opacity:0;transform:scale(.8);animation:pop .4s 2.7s cubic-bezier(.3,1.4,.5,1) forwards}
+@keyframes fade{to{opacity:1}}
+.p-hero h4{margin:0;font-family:var(--display);font-weight:800;font-size:clamp(.8rem,1.6vw,1.2rem);line-height:1.1;max-width:16ch}
+.p-hero small{display:block;font-size:.62rem;opacity:.8;margin-top:4px}
+.p-hero em{font-style:normal;background:#000000;border-radius:999px;font-size:.6rem;font-weight:600;padding:6px 10px;white-space:nowrap}
+.p-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:14px 20px}
+.p-card{border:1px solid #E5E5E5;border-radius:9px;padding:7px;opacity:0;transform:translateY(10px);animation:rise .45s cubic-bezier(.2,.8,.2,1) forwards}
+.p-card:nth-child(1){animation-delay:2.9s}.p-card:nth-child(2){animation-delay:3.05s}.p-card:nth-child(3){animation-delay:3.2s}.p-card:nth-child(4){animation-delay:3.35s}
+.p-img{aspect-ratio:4/3;border-radius:6px;margin-bottom:5px}
+.c1{background:#E6E6E6}.c2{background:#D9D9D9}.c3{background:#EFEFEF}.c4{background:#DEDEDE}
+.p-t{font-size:.6rem;font-weight:600;line-height:1.2}
+.p-p{font-size:.6rem;color:#000000;font-weight:600}
+
+.cursor{position:absolute;z-index:4;width:18px;height:18px;left:60%;top:70%;opacity:0;animation:cur 2.2s 2.4s ease-in-out forwards}
+.cursor svg{width:100%;height:100%;filter:drop-shadow(0 2px 3px rgba(0,0,0,.3))}
+@keyframes cur{0%{opacity:0;left:60%;top:70%}15%{opacity:1}55%{left:84%;top:27%}62%{transform:scale(.8)}70%{transform:none;left:84%;top:27%}90%{opacity:1}100%{opacity:0;left:84%;top:27%}}
+.phone{position:absolute;z-index:2;right:-2%;bottom:0;width:31%;aspect-ratio:9/19;background:#000000;border-radius:28px;padding:7px;box-shadow:0 30px 50px -18px rgba(0,0,0,.55);opacity:0;transform:translateY(30px);animation:rise .7s 3.6s cubic-bezier(.2,.8,.2,1) forwards}
+.screen{height:100%;border-radius:22px;overflow:hidden;background:#fff;color:#000000;position:relative}
+.notch{position:absolute;top:6px;left:50%;transform:translateX(-50%);width:36%;height:12px;background:#000000;border-radius:10px}
+.m-head{background:#000000;color:#fff;padding:26px 10px 10px;font-family:var(--display);font-weight:800;font-size:.68rem;line-height:1.15;transform:translateY(-100%);animation:drop .5s 4.1s cubic-bezier(.2,.8,.2,1) forwards}
+.m-name{display:block;white-space:nowrap;overflow:hidden;width:0;border-right:1.5px solid #fff;animation:typem 1s 4.5s steps(15) forwards,nocaret 0s 5.6s forwards}
+@keyframes typem{to{width:7.2rem}}
+@keyframes drop{to{transform:none}}
+.m-head small{opacity:0;animation:fade .3s 5.5s forwards}
+.m-grid div{opacity:0;transform:scale(.8);animation:pop .4s cubic-bezier(.3,1.4,.5,1) forwards}
+.m-grid div:nth-child(1){animation-delay:5.6s}.m-grid div:nth-child(2){animation-delay:5.72s}.m-grid div:nth-child(3){animation-delay:5.84s}.m-grid div:nth-child(4){animation-delay:5.96s}
+.m-head small{display:block;font-family:var(--body);font-weight:400;font-size:.48rem;opacity:.8;margin-top:2px}
+.m-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:8px}
+.m-grid div{aspect-ratio:1;border-radius:6px}
+.m-wa{position:absolute;left:8px;right:8px;bottom:10px;background:#000000;color:#fff;border-radius:999px;text-align:center;font-weight:600;font-size:.5rem;padding:6px;opacity:0;transform:translateY(14px);animation:rise .5s 6.2s cubic-bezier(.2,.8,.2,1) forwards,pulse 2.4s 6.8s ease-in-out infinite}
+.toast{position:absolute;z-index:3;left:4%;bottom:4%;display:flex;align-items:center;gap:.5rem;background:var(--surface);color:var(--ink);font-weight:600;font-size:.92rem;padding:.7rem 1rem;border-radius:14px;box-shadow:0 16px 34px -14px rgba(0,0,0,.45);border:1px solid var(--line);opacity:0;transform:translateY(10px) scale(.95);animation:pop .5s 6.6s cubic-bezier(.3,1.4,.5,1) forwards}
+.toast::before{content:"";width:.6rem;height:.6rem;border-radius:50%;background:var(--wa);box-shadow:0 0 0 4px color-mix(in srgb,var(--wa) 22%,transparent)}
+@keyframes rise{to{opacity:1;transform:none}}
+@keyframes pop{to{opacity:1;transform:none}}
+@keyframes wipe{to{clip-path:inset(0 0 0 0 round 10px)}}
+@keyframes pulse{50%{box-shadow:0 0 0 4px rgba(0,0,0,.2)}}
+
+/* Facts strip */
+.facts{display:grid;grid-template-columns:repeat(4,1fr);border-top:1px solid var(--line);border-bottom:1px solid var(--line);margin-bottom:1rem}
+.facts div{padding:1.6rem 1.5rem 1.6rem 0}
+.facts div+div{padding-left:1.5rem;border-left:1px solid var(--line)}
+.facts b{display:block;font-family:var(--display);font-weight:800;font-size:1.6rem;letter-spacing:-.02em;line-height:1.1}
+.facts span{color:var(--muted);font-size:.95rem}
+
+.keyfacts{list-style:none;margin:0 0 1rem;padding:0;border-top:1px solid var(--line)}
+.keyfacts li{display:flex;align-items:baseline;justify-content:space-between;gap:1.5rem;padding:1.4rem 0;border-bottom:1px solid var(--line)}
+.keyfacts b{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,4vw,3rem);letter-spacing:-.035em;line-height:1}
+.keyfacts span{color:var(--muted);text-align:right;max-width:28ch}
+@media (max-width:640px){.keyfacts li{flex-direction:column;gap:.35rem}.keyfacts span{text-align:left}}
+/* Sections */
+section{padding:6rem 0}
+.sec-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4rem;align-items:end;margin-bottom:3rem}
+h2{font-family:var(--display);font-weight:800;font-size:clamp(2rem,3.8vw,3.1rem);line-height:1.05;letter-spacing:-.03em;margin:0;max-width:16ch}
+.intro{color:var(--muted);max-width:46ch;margin:0;font-size:1.1rem}
+
+/* Features */
+.feats{display:grid;grid-template-columns:repeat(3,1fr);gap:3rem 2.5rem}
+.feat svg{width:30px;height:30px;color:var(--sea);margin-bottom:1rem}
+.feat h3{font-family:var(--display);font-weight:600;font-size:1.25rem;margin:0 0 .4rem;letter-spacing:-.01em}
+.feat p{margin:0;color:var(--muted)}
+
+/* Pricing */
+.pricing{background:var(--surface);border-block:1px solid var(--line)}
+.prices{display:grid;grid-template-columns:1.45fr 1fr;gap:1.5rem}
+.plan{border:1.5px solid var(--line);border-radius:28px;padding:2.5rem;background:var(--bg)}
+.plan.main{border:2px solid var(--pine)}
+.plan-top{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem}
+.plan h3{font-family:var(--display);font-weight:600;font-size:1.35rem;margin:0}
+.tag{font-size:.82rem;font-weight:600;color:var(--bg);background:var(--ink);border-radius:999px;padding:.3rem .75rem;white-space:nowrap}
+.amount{font-family:var(--display);font-weight:800;font-size:clamp(4.2rem,8vw,7rem);line-height:.95;letter-spacing:-.05em;margin:.8rem 0 .4rem;color:var(--pine)}
+.plan.alt .amount{font-size:clamp(3.4rem,6vw,4.8rem);color:var(--sea)}
+.amount span{font-size:.42em;letter-spacing:0;margin-left:.12em}
+.note{color:var(--muted);font-size:.97rem;margin:0 0 1.6rem}
+.ticks{list-style:none;padding:0;margin:0;display:grid;gap:.7rem}
+.plan.main .ticks{grid-template-columns:1fr 1fr;column-gap:1.5rem}
+.ticks li{display:flex;gap:.65rem;align-items:flex-start}
+.ticks li::before{content:"";flex:none;width:1.15rem;height:1.15rem;margin-top:.22rem;border-radius:50%;background:var(--ink);-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cmask id='m'%3E%3Crect width='20' height='20' fill='white'/%3E%3Cpath d='M5 10.5l3 3 7-7' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/mask%3E%3Ccircle cx='10' cy='10' r='10' fill='white' mask='url(%23m)'/%3E%3C/svg%3E") center/100% no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cmask id='m'%3E%3Crect width='20' height='20' fill='white'/%3E%3Cpath d='M5 10.5l3 3 7-7' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/mask%3E%3Ccircle cx='10' cy='10' r='10' fill='white' mask='url(%23m)'/%3E%3C/svg%3E") center/100% no-repeat}
+
+.extra{margin:1.8rem 0 0;font-size:.93rem;color:var(--muted);border-top:1px dashed var(--line);padding-top:1.1rem}
+.plan .btn{margin-top:1.8rem}
+
+/* Steps */
+.steps{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;counter-reset:s}
+.steps li{counter-increment:s;border-top:2px solid var(--ink);padding-top:1.2rem}
+.steps li::before{content:counter(s);font-family:var(--display);font-weight:800;font-size:2.4rem;line-height:1;color:var(--sea);display:block;margin-bottom:.8rem}
+.steps h3{font-family:var(--display);font-weight:600;font-size:1.2rem;margin:0 0 .4rem}
+.steps p{margin:0;color:var(--muted);font-size:.99rem}
+
+/* Why */
+.why-sec{background:var(--surface);border-block:1px solid var(--line)}
+.why{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2.5rem}
+.why li{border-top:1.5px solid var(--ink);padding-top:1.3rem}
+.why h3{font-family:var(--display);font-weight:600;font-size:1.25rem;letter-spacing:-.01em;line-height:1.2;margin:0 0 .5rem;text-wrap:balance}
+.why p{margin:0;color:var(--muted)}
+
+/* Who */
+.who-box{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:4rem;align-items:center}
+.who{display:flex;flex-wrap:wrap;gap:.65rem;margin:0;padding:0;list-style:none}
+.who li{background:var(--surface);border:1.5px solid var(--line);border-radius:999px;padding:.6rem 1.15rem;font-weight:500}
+
+/* About */
+.about{background:var(--surface);border-block:1px solid var(--line)}
+.about-box{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:5rem;align-items:center}
+.body-text{color:var(--muted);max-width:56ch;margin:0 0 2rem}
+.values{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.values li{border-left:2px solid var(--sea);padding-left:1rem}
+.values b{display:block;font-family:var(--display);font-weight:600;font-size:1.05rem;margin-bottom:.2rem}
+.values span{color:var(--muted);font-size:.95rem;line-height:1.5;display:block}
+.founder{margin:0;background:var(--ink);color:var(--bg);border-radius:32px;padding:2.5rem;position:relative;overflow:hidden}
+.founder::after{content:"";position:absolute;right:-30%;bottom:-40%;width:80%;aspect-ratio:1;border-radius:50%;background:radial-gradient(closest-side,rgba(255,255,255,.12),transparent)}
+.avatar{width:72px;height:72px;border-radius:50%;background:var(--bg);color:var(--ink);display:grid;place-items:center;font-family:var(--display);font-weight:800;font-size:1.5rem;margin-bottom:1.6rem;box-shadow:0 0 0 6px rgba(255,255,255,.15)}
+.founder blockquote{margin:0 0 1.6rem;font-family:var(--display);font-weight:600;font-size:clamp(1.3rem,2.2vw,1.65rem);line-height:1.25;letter-spacing:-.015em;position:relative;z-index:1}
+.founder figcaption b{display:block;font-size:1.05rem}
+.founder figcaption span{opacity:.75;font-size:.95rem}
+.langs{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1.5rem;position:relative;z-index:1}
+.langs span{border:1px solid rgba(255,255,255,.35);border-radius:999px;padding:.3rem .8rem;font-size:.85rem}
+/* FAQ */
+.faq-box{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.5fr);gap:4rem;align-items:start}
+.faq-box .side{position:sticky;top:110px}
+.faq-box .side p{color:var(--muted);margin:1rem 0 1.5rem;max-width:32ch}
+details{border-bottom:1.5px solid var(--line)}
+details:first-child{border-top:1.5px solid var(--line)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.3rem 0;font-weight:600;font-size:1.1rem}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--display);font-size:1.6rem;line-height:1;color:var(--sea);transition:transform .2s ease}
+details[open] summary::after{transform:rotate(45deg)}
+details p{margin:0 0 1.3rem;color:var(--muted);max-width:62ch}
+
+/* Final CTA */
+.final{background:var(--ink);color:var(--bg);border-radius:36px;padding:clamp(2.2rem,5vw,4rem);display:grid;grid-template-columns:minmax(0,1.4fr) auto;justify-content:space-between;align-items:center;gap:2rem}
+.final h2{color:inherit;max-width:18ch}
+.final p{margin:.8rem 0 0;opacity:.85;font-size:1.1rem}
+.final .actions{display:flex;flex-direction:column;gap:.7rem;align-items:stretch}
+.btn-light{background:var(--bg);color:var(--ink)}
+.btn-line{border:1.5px solid color-mix(in srgb,var(--bg) 45%,transparent);color:var(--bg)}
+.btn-line:hover{border-color:var(--bg)}
+footer{border-top:1px solid var(--line);margin-top:4rem;padding:2rem 0 3rem;color:var(--muted);font-size:.92rem}
+footer .wrap{display:flex;flex-wrap:wrap;justify-content:space-between;gap:1rem}
+footer a{text-decoration:none}
+footer a:hover{color:var(--ink)}
+
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--i,0)*90ms)}
+.reveal.in{opacity:1;transform:none}
+.steps li{border-top-color:transparent;position:relative}
+.steps li::after{content:"";position:absolute;top:-2px;left:0;height:2px;width:0;background:var(--ink);transition:width .8s cubic-bezier(.6,0,.2,1);transition-delay:calc(var(--i,0)*150ms + 200ms)}
+.steps li.in::after{width:100%}
+.feat svg{transition:transform .5s cubic-bezier(.3,1.4,.5,1)}
+.feat:hover svg{transform:translateY(-3px) rotate(-6deg)}
+.plan{transition:transform .25s ease,box-shadow .25s ease,opacity .7s cubic-bezier(.2,.8,.2,1)}
+.plan.in:hover{transform:translateY(-4px);box-shadow:0 24px 50px -28px rgba(0,0,0,.4)}
+.who li{transition:background .2s,border-color .2s,color .2s,opacity .6s,transform .6s cubic-bezier(.3,1.4,.5,1)}
+.who li:hover{border-color:var(--pine);color:var(--pine)}
+@media (max-width:1020px){
+  .nav{display:none}
+  .hero{grid-template-columns:1fr;gap:3rem;padding-top:2.5rem}
+  .hero h1{max-width:14ch}
+  .sec-head,.who-box,.faq-box,.about-box{grid-template-columns:1fr;gap:1.2rem}
+  .about-box{gap:3rem}
+  .faq-box .side{position:static}
+  .prices{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr 1fr}
+  .feats{grid-template-columns:1fr 1fr}
+  .why{grid-template-columns:1fr;gap:2rem}
+  .final{grid-template-columns:1fr}
+  .final .actions{flex-direction:row;flex-wrap:wrap}
+}
+@media (max-width:640px){
+  .wrap{width:calc(100% - 2.5rem)}
+  section{padding:4.2rem 0}
+  .head .btn span{display:none}
+  .brand small{display:none}
+  .facts{grid-template-columns:1fr 1fr}
+  .facts div{padding:1.2rem 1rem 1.2rem 0}
+  .facts div:nth-child(3){padding-left:0;border-left:0;border-top:1px solid var(--line)}
+  .facts div:nth-child(4){border-top:1px solid var(--line)}
+  .facts div:nth-child(2),.facts div:nth-child(4){padding-left:1rem}
+  .feats,.steps,.values{grid-template-columns:1fr}
+  .founder{padding:1.8rem}
+  .plan{padding:1.8rem}
+  .plan.main .ticks{grid-template-columns:1fr}
+  .p-nav span{display:none}
+  .p-grid{grid-template-columns:repeat(2,1fr)}
+  .p-card:nth-child(n+3){display:none}
+  .phone{width:36%;right:-1%}
+  .toast{font-size:.82rem;left:0}
+  .cta-row .btn{width:100%}
+}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1;transform:none}
+  .split .w>span{transform:none}
+  *,*::before,*::after{animation-duration:0s!important;animation-delay:0s!important;animation-iteration-count:1!important;transition:none!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="wa" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.5l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3Z"/></symbol>
+</svg>
+
+<header class="head" id="head">
+  <div class="wrap">
+    <button class="menu-btn" id="menuBtn" aria-label="Apri il menu" aria-expanded="false" aria-controls="drawer"><span></span><span></span><span></span></button>
+    <a class="brand" href="#top"><span><b>VSite</b><small>Siti web in Versilia</small></span></a>
+    <nav class="nav" aria-label="Sezioni">
+      <a href="#servizio">Servizio</a>
+      <a href="#prezzi">Prezzi</a>
+      <a href="#come">Come funziona</a>
+      <a href="#chi-siamo">Chi siamo</a>
+      <a href="#faq">Domande</a>
+    </nav>
+    <a class="btn btn-wa wa" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg><span>Contattaci</span></a>
+  </div>
+</header>
+
+<div class="overlay" id="overlay"></div>
+<nav class="drawer" id="drawer" aria-label="Menu" aria-hidden="true">
+  <div class="drawer-top">
+    <b>VSite</b>
+    <button class="close-btn" id="closeBtn" aria-label="Chiudi il menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  </div>
+  <ul>
+    <li><a href="#top">Home</a></li>
+    <li><a href="#perche">Perché un sito</a></li>
+    <li><a href="#servizio">Servizio</a></li>
+    <li><a href="#prezzi">Prezzi</a></li>
+    <li><a href="#come">Come funziona</a></li>
+    <li><a href="#clienti">Con chi lavoriamo</a></li>
+    <li><a href="#chi-siamo">Chi siamo</a></li>
+    <li><a href="#faq">Domande frequenti</a></li>
+    <li><a href="#contatti">Contatti</a></li>
+  </ul>
+  <a class="btn btn-wa wa" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Scrivici su WhatsApp</a>
+</nav>
+
+<main id="top">
+  <div class="wrap">
+    <div class="hero">
+      <div>
+        <h1 class="split">Il sito della vostra attività, online in pochi giorni.</h1>
+        <p class="lead">Realizziamo siti web professionali per negozi, laboratori e attività della Versilia. <strong>200 € tutto compreso</strong>, ogni modifica successiva a soli <strong>5 €</strong>.</p>
+        <div class="cta-row">
+          <a class="btn btn-wa wa" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Richiedi un preventivo</a>
+          <a class="btn btn-ghost" href="#prezzi">Scopri cosa è incluso</a>
+        </div>
+        <p class="place"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Operiamo a Viareggio, Forte dei Marmi, Pietrasanta, Camaiore e in tutta la Versilia</p>
+      </div>
+
+      <div class="stage" aria-hidden="true">
+        <div class="browser">
+          <div class="bar"><i></i><i></i><i></i><span class="url">elettrodarsena.it</span></div>
+          <div class="page">
+            <div class="p-nav"><b>Elettro Darsena</b><span><i>Prodotti</i><i>Assistenza</i><i>Contatti</i></span></div>
+            <div class="p-hero"><div><h4>Elettrodomestici a Viareggio dal 1985</h4><small>Consegna e installazione in tutta la Versilia</small></div><em>Scrivici su WhatsApp</em></div>
+            <div class="p-grid">
+              <div class="p-card"><div class="p-img c1"></div><div class="p-t">Lavatrice 9 kg</div><div class="p-p">449 €</div></div>
+              <div class="p-card"><div class="p-img c2"></div><div class="p-t">Frigo combinato</div><div class="p-p">699 €</div></div>
+              <div class="p-card"><div class="p-img c3"></div><div class="p-t">Forno ventilato</div><div class="p-p">329 €</div></div>
+              <div class="p-card"><div class="p-img c4"></div><div class="p-t">Lavastoviglie</div><div class="p-p">389 €</div></div>
+            </div>
+          </div>
+        </div>
+        <div class="cursor"><svg viewBox="0 0 24 24"><path d="M4 2l16 10-7 1.5L9.5 21z" fill="#000000" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+        <div class="phone"><div class="screen"><div class="notch"></div>
+          <div class="m-head"><span class="m-name">Elettro Darsena</span><small>Viareggio dal 1985</small></div>
+          <div class="m-grid"><div class="c1"></div><div class="c2"></div><div class="c3"></div><div class="c4"></div></div>
+          <div class="m-wa">WhatsApp</div>
+        </div></div>
+        <div class="toast">Il vostro sito è online</div>
+      </div>
+    </div>
+
+    <ul class="keyfacts">
+      <li><b>200 €</b><span>pagamento unico, tutto compreso</span></li>
+      <li><b>5 €</b><span>per ogni modifica</span></li>
+      <li><b>Pochi giorni</b><span>dal primo contatto alla pubblicazione</span></li>
+      <li><b>Multilingua</b></li>
+    </ul>
+  </div>
+
+  <section id="perche" class="why-sec">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Prima di entrare, vi cercano online</h2>
+        <p class="intro">Oggi la prima impressione di un'attività nasce spesso sullo schermo di un telefono. Un sito curato fa sì che sia quella giusta.</p>
+      </div>
+      <ul class="why">
+        <li><h3>La prima impressione conta</h3><p>Prima di scegliere un negozio o un artigiano, molti clienti danno un'occhiata online. Un sito ordinato e aggiornato trasmette la stessa cura che mettete nel vostro lavoro.</p></li>
+        <li><h3>Chi non vi conosce ancora</h3><p>Turisti, nuovi residenti, clienti dei comuni vicini: scoprono le attività della zona cercando su Google. Con un sito, la vostra attività compare proprio quando cercano ciò che offrite.</p></li>
+        <li><h3>La vostra storia, con le vostre parole</h3><p>Recensioni e social parlano di voi. Il sito è lo spazio in cui siete voi a presentare la vostra attività, i vostri prodotti e ciò che vi distingue.</p></li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="servizio">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Tutto ciò che serve a un'attività locale</h2>
+        <p class="intro">Progettiamo ogni sito attorno a un obiettivo preciso: permettere ai vostri clienti di trovare ciò che cercano e contattarvi in pochi secondi.</p>
+      </div>
+      <div class="feats">
+        <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="13" height="10" rx="1.5"/><rect x="15" y="9" width="6" height="11" rx="1.5"/><path d="M7 18h5"/></svg><h3>Perfetto su ogni schermo</h3><p>Ottimizzato per smartphone, tablet e computer. Oggi la maggior parte dei clienti cerca le attività locali dal telefono.</p></div>
+        <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg><h3>Catalogo con prezzi</h3><p>Prodotti e servizi presentati con foto e prezzi, aggiornati ogni volta che ne avete bisogno.</p></div>
+        <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 20l1.3-3.8A8 8 0 1 1 8 19z"/></svg><h3>Contatto in un tocco</h3><p>Pulsanti diretti per WhatsApp e chiamata: il cliente vi raggiunge subito, senza moduli da compilare.</p></div>
+        <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21Z"/><circle cx="12" cy="9.5" r="2.5"/></svg><h3>Orari e mappa</h3><p>Indirizzo, orari di apertura e indicazioni stradali tramite Google Maps.</p></div>
+        <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg><h3>Pronto per Google</h3><p>Titoli e descrizioni curati per i motori di ricerca, con collegamento alla vostra scheda Google.</p></div>
+        <div class="feat"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z"/></svg><h3>Anche per i turisti</h3><p>Su richiesta realizziamo il sito in altre lingue, per accogliere i numerosi turisti che visitano la Versilia.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="prezzi" class="pricing">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Un prezzo chiaro, senza sorprese</h2>
+        <p class="intro">Il sito si paga una sola volta. Per qualsiasi aggiornamento basta un messaggio su WhatsApp: ce ne occupiamo noi.</p>
+      </div>
+      <div class="prices">
+        <div class="plan main">
+          <div class="plan-top"><h3>Sito completo</h3><span class="tag">Tutto compreso</span></div>
+          <div class="amount">200<span>€</span></div>
+          <p class="note">Pagamento unico, nessun canone mensile</p>
+          <ul class="ticks">
+            <li>Design su misura per la vostra attività</li>
+            <li>Ottimizzato per telefono e computer</li>
+            <li>Catalogo con prodotti e prezzi</li>
+            <li>Orari, indirizzo e mappa</li>
+            <li>Pulsanti WhatsApp e chiamata</li>
+            <li>Testi redatti dal nostro team</li>
+            <li>Anteprima da approvare prima del pagamento</li>
+            <li>Pubblicazione online inclusa</li>
+          </ul>
+          <p class="extra">Dominio personalizzato (es. ilvostronegozio.it): ci occupiamo noi della registrazione; il costo annuale del dominio è escluso.</p>
+          <a class="btn btn-wa wa" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#wa"/></svg>Richiedi il vostro sito</a>
+        </div>
+        <div class="plan alt">
+          <div class="plan-top"><h3>Ogni modifica</h3></div>
+          <div class="amount">5<span>€</span></div>
+          <p class="note">Aggiornamento entro la giornata lavorativa</p>
+          <ul class="ticks">
+            <li>Nuovi orari o chiusure per ferie</li>
+            <li>Aggiungere o togliere un prodotto</li>
+            <li>Cambiare un prezzo o una foto</li>
+            <li>Promozioni e avvisi in evidenza</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="come">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2>Come funziona</h2>
+        <p class="intro">Non sono richieste competenze tecniche. Voi vi occupate della vostra attività, noi di tutto il resto.</p>
+      </div>
+      <ol class="steps">
+        <li><h3>Primo contatto</h3><p>Ci scrivete su WhatsApp oppure veniamo noi da voi. Analizziamo insieme la vostra attività e i vostri clienti.</p></li>
+        <li><h3>Raccolta materiali</h3><p>Ci inviate foto dei prodotti, orari ed eventuale logo. Vanno benissimo anche le foto scattate con il telefono.</p></li>
+        <li><h3>Anteprima</h3><p>In pochi giorni ricevete il link all'anteprima. Apportiamo insieme tutte le modifiche necessarie.</p></li>
+        <li><h3>Pubblicazione</h3><p>Mettiamo il sito online e vi forniamo il link da condividere su Google, Instagram e WhatsApp.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section id="clienti">
+    <div class="wrap who-box">
+      <div>
+        <h2>Con chi lavoriamo</h2>
+        <p class="intro" style="margin-top:1rem">Ci rivolgiamo in particolare alle attività che hanno qualcosa da mostrare: prodotti, lavori realizzati, un catalogo.</p>
+      </div>
+      <ul class="who">
+        <li>Negozi di elettrodomestici</li><li>Arredamento e mobili</li><li>Officine e riparazioni</li>
+        <li>Ferramenta</li><li>Ristoranti e bar</li><li>Bagni e stabilimenti</li>
+        <li>Artigiani</li><li>B&amp;B e affittacamere</li><li>Negozi di abbigliamento</li>
+      </ul>
+    </div>
+  </section>
+
+  <section id="chi-siamo" class="about">
+    <div class="wrap about-box">
+      <div>
+        <h2>Chi siamo</h2>
+        <p class="intro" style="margin:1.2rem 0 1.2rem">VSite è uno studio web nato in Versilia con un obiettivo semplice: offrire alle attività del territorio un sito curato e professionale, a un prezzo trasparente.</p>
+        <p class="body-text">Conosciamo da vicino la realtà di Viareggio e dei comuni vicini: negozi storici, laboratori artigiani, attività stagionali che vivono di turismo. Per questo progettiamo siti concreti, pensati per portare clienti veri, e restiamo al vostro fianco anche dopo la pubblicazione.</p>
+        <ul class="values">
+          <li><b>Presenza sul territorio</b><span>Ci incontriamo di persona, nel vostro negozio.</span></li>
+          <li><b>Prezzi chiari</b><span>Nessun costo nascosto e nessun canone mensile.</span></li>
+          <li><b>Risposte rapide</b><span>Un unico contatto su WhatsApp per ogni esigenza.</span></li>
+        </ul>
+      </div>
+      <figure class="founder">
+        <div class="avatar" aria-hidden="true">VK</div>
+        <blockquote>Ho fondato VSite perché ogni attività della Versilia merita di essere trovata online, senza spendere una fortuna.</blockquote>
+        <figcaption><b>Vasilii Klenov</b><span>Fondatore di VSite</span></figcaption>
+        
+      </figure>
+    </div>
+  </section>
+
+  <section id="faq">
+    <div class="wrap faq-box">
+      <div class="side">
+        <h2>Domande frequenti</h2>
+        <p>Non trovate la risposta che cercate? Contattateci, saremo lieti di aiutarvi.</p>
+        <a class="btn btn-ghost wa" href="#" target="_blank" rel="noopener"><svg aria-hidden="true" style="color:var(--wa)"><use href="#wa"/></svg>Fai una domanda</a>
+      </div>
+      <div>
+        <details><summary>Serve un sito se ho già Instagram o la scheda Google?</summary><p>I social e la scheda Google sono un ottimo punto di partenza, ma lo spazio è limitato e le regole le decide la piattaforma. Il sito è il riferimento ufficiale della vostra attività: riunisce catalogo, orari e contatti in un unico indirizzo, dà un'immagine professionale e collega tutti gli altri canali.</p></details>
+        <details><summary>Perché il prezzo è così accessibile?</summary><p>Siamo uno studio snello, senza i costi di struttura di una grande agenzia. Abbiamo pensato un prezzo su misura per le piccole attività del territorio che vogliono una presenza online professionale senza investire migliaia di euro.</p></details>
+        <details><summary>Ci sono costi mensili?</summary><p>No. Il sito si paga una sola volta, 200 €. Successivamente pagate solo le modifiche richieste, 5 € ciascuna, ed eventualmente il rinnovo annuale del dominio personalizzato.</p></details>
+        <details><summary>Quali sono i tempi di realizzazione?</summary><p>Di norma pochi giorni dalla ricezione di foto e informazioni. Vi inviamo prima un'anteprima da approvare, quindi procediamo alla pubblicazione.</p></details>
+        <details><summary>Posso vedere il sito prima di pagare?</summary><p>Certamente. Vi mostriamo l'anteprima e la perfezioniamo insieme. Il pagamento avviene solo quando siete soddisfatti e il sito è pronto per andare online.</p></details>
+        <details><summary>Devo fornire io foto e testi?</summary><p>Ci bastano le foto, anche scattate con il telefono, e le informazioni principali. I testi li redigiamo noi.</p></details>
+        <details><summary>Realizzate siti in più lingue?</summary><p>Sì. Possiamo realizzare il sito in inglese, tedesco, francese o nelle altre lingue dei vostri clienti, per raggiungere anche i turisti che visitano la Versilia.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section id="contatti" style="padding-top:2rem;padding-bottom:0">
+    <div class="wrap">
+      <div class="final">
+        <div>
+          <h2>Parliamo del vostro progetto</h2>
+          <p>Contattateci su WhatsApp: rispondiamo generalmente entro poche ore.</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-light wa" href="#" target="_blank" rel="noopener"><svg aria-hidden="true" style="color:currentColor"><use href="#wa"/></svg>Scrivici su WhatsApp</a>
+          <a class="btn btn-line" href="tel:+393274474064">Chiamaci al +39 327 447 4064</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>VSite, siti web per le attività della Versilia</span>
+    <a href="tel:+393274474064">+39 327 447 4064</a>
+  </div>
+</footer>
+
+<script>
+  const WA_NUMBER = "393274474064";
+  const WA_TEXT = "Ciao VSite, ho visto il vostro sito e vorrei informazioni per un sito per la mia attività.";
+  const href = "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(WA_TEXT);
+  document.querySelectorAll("a.wa").forEach(a => a.href = href);
+  const head = document.getElementById("head");
+  const onScroll = () => head.classList.toggle("scrolled", window.scrollY > 8);
+  window.addEventListener("scroll", onScroll, {passive:true}); onScroll();
+
+  // Menu laterale
+  const body = document.body, btn = document.getElementById("menuBtn"), drawer = document.getElementById("drawer");
+  drawer.querySelectorAll("li").forEach((li,i) => li.style.setProperty("--i", i));
+  const setMenu = open => {
+    body.classList.toggle("menu-open", open);
+    btn.setAttribute("aria-expanded", open); drawer.setAttribute("aria-hidden", !open);
+    if(open) document.getElementById("closeBtn").focus();
+  };
+  btn.addEventListener("click", () => setMenu(true));
+  document.getElementById("closeBtn").addEventListener("click", () => setMenu(false));
+  document.getElementById("overlay").addEventListener("click", () => setMenu(false));
+  drawer.querySelectorAll("a").forEach(a => a.addEventListener("click", () => setMenu(false)));
+  document.addEventListener("keydown", e => { if(e.key === "Escape") setMenu(false); });
+
+  // Titolo parola per parola
+  document.querySelectorAll(".split").forEach(h => {
+    h.innerHTML = h.textContent.trim().split(" ").map((w,i) => `<span class="w"><span style="--i:${i}">${w}</span></span>`).join(" ");
+  });
+
+  // Animazioni allo scroll
+  const groups = [".facts>div",".sec-head>*",".feat",".plan",".steps li",".who li",".who-box h2",".keyfacts li",".why li",".faq-box .side","details",".final",".about-box>div",".founder",".values li"];
+  groups.forEach(sel => document.querySelectorAll(sel).forEach((el,i) => { el.classList.add("reveal"); el.style.setProperty("--i", i % 6); }));
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Contatore prezzi
+  const count = el => {
+    const end = +el.dataset.n, t0 = performance.now(), d = 1100;
+    const tick = t => { const k = Math.min(1,(t-t0)/d); el.firstChild.nodeValue = Math.round(end*(1-Math.pow(1-k,3))); if(k<1) requestAnimationFrame(tick); };
+    requestAnimationFrame(tick);
+  };
+  document.querySelectorAll(".amount").forEach(a => { a.dataset.n = parseInt(a.textContent); if(!reduce) a.firstChild.nodeValue = "0"; });
+
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if(!e.isIntersecting) return;
+    e.target.classList.add("in"); io.unobserve(e.target);
+    const a = e.target.querySelector && e.target.querySelector(".amount");
+    if(a && !reduce) count(a);
+  }), {threshold:.15, rootMargin:"0px 0px -40px 0px"});
+  document.querySelectorAll(".reveal").forEach(el => io.observe(el));
+</script>
+</body>
+</html>
